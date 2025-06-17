@@ -395,6 +395,7 @@ CREATE TABLE activity_field_location (
     id SERIAL PRIMARY KEY,
     activity_field_id INT NOT NULL,
     location GEOMETRY(Point, 4326) NOT NULL,
+	deleted_at date,
     CONSTRAINT fk_location_activity_field
         FOREIGN KEY (activity_field_id)
         REFERENCES activity_field(id)

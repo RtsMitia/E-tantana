@@ -13,26 +13,29 @@ export class ActivityFieldLocationService
 {
     constructor(
         @Inject(REPOSITORY_MAPPING_TOKEN.ACTIVITYFIELDLOCATION_REPOSITORY)
-        private readonly activityFieldRepository: IActivityFieldLocationRepository,
+        private readonly activityFieldLocation: IActivityFieldLocationRepository,
     ) {
-        super(activityFieldRepository);
+        super(activityFieldLocation);
     }
 
     fetchById(
         id: number,
         properties: JoinProperties[],
     ): Promise<ActivityFieldLocation> {
-        return this.activityFieldRepository.findById(id, properties);
+        return this.activityFieldLocation.findById(id, properties);
     }
 
     fetchAllWithCriteria(
         criteria: any,
         properties?: JoinProperties[],
     ): Promise<Record<string, any>> {
-        return this.activityFieldRepository.findAllWithCriteria(
+        return this.activityFieldLocation.findAllWithCriteria(
             criteria,
             properties,
         );
     }
 
+    fetchAllDiosezyWithGeometry(): Promise<any[]> {
+        return this.activityFieldLocation.findAllDiosezyWithGeometry();
+    }
 }

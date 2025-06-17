@@ -7,5 +7,7 @@ export interface IActivityFieldLocationService extends IGeneralDtoService {
         criteria: any,
         properties?: JoinProperties[],
     ): Promise<Record<string, any>>;
+    fetchAllDiosezyWithGeometry(): Promise<any[]>;
     fetchById(id: number, properties: JoinProperties[]): Promise<ActivityFieldLocation>;
+    
 }

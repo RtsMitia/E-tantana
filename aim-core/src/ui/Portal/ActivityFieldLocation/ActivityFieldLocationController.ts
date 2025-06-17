@@ -34,14 +34,23 @@ export class ActivityFieldLocationController {
 
     @Get()
     async findAll(@Query() criteria: any) {
+        const result = await this.activityFieldLocationService.fetchAllWithCriteria(
+            criteria,
+            this.joinProperties,
+        );
         return {
-            activityFields:
-                await this.activityFieldLocationService.fetchAllWithCriteria(
-                    criteria,
-                    this.joinProperties,
-                ),
+            data: result.data,
         };
     }
+
+    @Get('diosezy')
+    async getAllDiosezy() {
+        console.log("miditra diosezy");
+        return {
+            data: await this.activityFieldLocationService.fetchAllDiosezyWithGeometry(),
+        };
+    }
+
 
     @Get(':id')
     async findOne(@Param('id') id: number) {
@@ -69,4 +78,6 @@ export class ActivityFieldLocationController {
     async delete(@Param('id') id: number) {
         return { activityField: await this.activityFieldLocationService.delete(id) };
     }
+
+
 }

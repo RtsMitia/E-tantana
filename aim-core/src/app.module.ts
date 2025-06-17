@@ -52,6 +52,7 @@ import { User } from './core/domains/User/User';
 import { YouthInfo } from './core/domains/YouthInfo/YouthInfo';
 import { ActivityFieldSectionModule } from './dependecy/activity-field-section.module';
 import { ActivityFieldModule } from './dependecy/activity-field.module';
+import { ActivityFieldLocationModule } from './dependecy/activity-field-location.module';
 import { ActivityPlanModule } from './dependecy/activity-plan.module';
 import { ActivityYearModule } from './dependecy/activity-year.module';
 import { AdultInfoModule } from './dependecy/adult-info.module';
@@ -214,6 +215,7 @@ import { join } from 'path';
         MemberSacrementModule,
         SectionModule,
         ActivityFieldModule,
+        ActivityFieldLocationModule,
         FeeTypeModule,
         PaymentTypeModule,
         EducationFieldModule,

@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Index } from 'typeorm';
 import { ActivityField } from '../ActivityField/ActivityField';
 import { Geometry } from 'geojson';
+import { GeneralDto } from '../GeneralDto/GeneralDto';
 
 @Entity('activity_field_location')
-export class ActivityFieldLocation {
+export class ActivityFieldLocation extends GeneralDto{
     @PrimaryGeneratedColumn()
     id: number;
 

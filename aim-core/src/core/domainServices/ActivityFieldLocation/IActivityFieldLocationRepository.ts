@@ -12,6 +12,7 @@ export interface IActivityFieldLocationRepository extends IGeneralDtoRepository 
         criteria: any,
         properties?: JoinProperties[],
     ): Promise<Record<string, any>>;
+    findAllDiosezyWithGeometry(): Promise<any[]>;
     findById(id: number, properties: JoinProperties[]): Promise<ActivityFieldLocation>;
 
 }
