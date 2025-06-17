@@ -1,0 +1,42 @@
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Node.js ===
+**/node_modules/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# === Environment Variables ===
+**/.env
+**/.env.*
+
+# === Logs ===
+logs/
+*.log
+*.log.*
+
+# === Build Output ===
+e-tantana/build/
+e-tantana/dist/
+aim-core/dist/
+
+# === Coverage Reports ===
+**/coverage/
+*.lcov
+
+# === VS Code ===
+.vscode/
+*.code-workspace
+
+# === IDEs ===
+.idea/
+*.iml
+
+# === Optional: lockfiles (if using one package manager globally) ===
+# You can uncomment if you're using one package manager consistently
+# **/package-lock.json
+# **/yarn.lock
+# **/pnpm-lock.yaml

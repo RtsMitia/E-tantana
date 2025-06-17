@@ -1,0 +1,228 @@
+// If you want to override variables do it here
+@import "variables";
+
+$enable-ltr: true;
+$enable-rtl: true;
+
+// Import CoreUI for React components library
+@import "@coreui/coreui/scss/coreui";
+
+// Import Chart.js custom tooltips styles
+@import "@coreui/chartjs/scss/coreui-chartjs";
+
+@import "layout";
+@import "example";
+
+// If you want to add custom CSS you can put it here.
+@import "custom";
+
+#aim-color-green {
+  background-color: rgb(8, 151, 59);
+  text-align: center;
+  border-color: rgb(8, 151, 59);
+}
+
+.image {
+  float: right;
+}
+
+.margin-left {
+  margin-left: 25px;
+}
+
+.aim-background {
+  background-image: url("../assets/images/aim-bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 45%;
+}
+
+.member-card {
+  position: relative;
+  width: 583px;
+  height: 355px;
+}
+
+.member-card-button-x {
+  position: absolute;
+  width: 40px;
+  height: 36px;
+  left: 543px;
+  top: -36px;
+}
+
+.member-card-background {
+  background-color: #fff;
+  position: absolute;
+  width: 545px;
+  height: 342px;
+  border-color: rgba(0, 156, 57, 1);
+  border-style: solid;
+}
+
+.member-card-top-rectangular {
+  position: absolute;
+  width: 384px;
+  height: 53px;
+  left: 0px;
+  top: 0px;
+  background: #009c39;
+}
+
+.member-card-top-polygon {
+  position: absolute;
+  width: 89.5px;
+  height: 51.62px;
+  left: 321.15px;
+  top: 22.68px;
+  background: #ffffff;
+  transform: rotate(-40.2deg);
+}
+
+.member-card-bottom-rectangular {
+  position: absolute;
+  width: 540px;
+  height: 43px;
+  left: 0px;
+  top: 296px;
+  background: #009c39;
+}
+
+.logo {
+  margin-left: 25px;
+  font-size: large;
+  font-weight: 650;
+  color: #ffffff99;
+  font-family: sans-serif;
+}
+
+.member-card-top-title {
+  position: absolute;
+  width: 424px;
+  height: 53px;
+  left: -38px;
+  top: 0px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.scan-qr-body {
+  height: 600px;
+}
+
+.scan-qr {
+  width: 400px;
+  height: 300px;
+}
+
+.member-card-address {
+  position: absolute;
+  width: 394px;
+  height: 34px;
+  left: -22px;
+  top: 29px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 200;
+  font-size: 11px;
+  line-height: 12px;
+  color: black;
+}
+
+.member-card-aim-2 {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  left: 483px;
+  top: 6px;
+}
+
+.member-card-aim-1 {
+  position: absolute;
+  width: 40px;
+  height: 46.18px;
+  left: 428px;
+  top: 6px;
+}
+
+.member-card-title {
+  position: absolute;
+  width: 390px;
+  height: 57px;
+  left: 153px;
+  top: 27px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-end;
+  text-decoration-line: underline;
+  color: #1b1c1d;
+}
+
+.member-card-contain {
+  position: absolute;
+  width: 495px;
+  height: 281px;
+  left: 18px;
+  top: 117px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  color: #000000;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.member-card-qr {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  left: 439px;
+  top: 194px;
+}
+
+.member-card-president {
+  position: absolute;
+  width: 197px;
+  height: 41px;
+  left: 307px;
+  top: 190px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: flex-end;
+  text-decoration-line: underline;
+
+  color: #000000;
+}
+
+.member-card-president-name {
+  position: absolute;
+  width: 197px;
+  height: 41px;
+  left: 307px;
+  top: 245px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: flex-end;
+
+  color: #000000;
+}
