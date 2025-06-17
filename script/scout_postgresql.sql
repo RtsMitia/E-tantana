@@ -657,7 +657,10 @@ ALTER TABLE project ALTER COLUMN target_name TYPE varchar(255)     'ny fileovana
 
 ALTER TABLE project ALTER COLUMN responsible_name TYPE varchar(255)     'andraikitra voalohany';
 
-ALTER TABLE project ALTER COLUMN project_target_id TYPE int  NOT NULL   ;
+ALTER TABLE project ALTER COLUMN project_target_id TYPE integer;
+
+-- Make the column NOT NULL
+ALTER TABLE project ALTER COLUMN project_target_id SET NOT NULL;
 
 ALTER TABLE project ALTER COLUMN context TYPE text     ;
 
@@ -771,7 +774,13 @@ CREATE TABLE project_user (
 
  ALTER TABLE payment_draft_detail DROP COLUMN training_five;
 
-ALTER TABLE payment_draft_detail RENAME COLUMN training_one TO training text NULL ;
+-- Step 1: Rename the column
+ALTER TABLE payment_draft_detail RENAME COLUMN training_one TO training;
+
+-- Step 2: Change the column type and set it to NULLABLE
+ALTER TABLE payment_draft_detail ALTER COLUMN training TYPE text;
+ALTER TABLE payment_draft_detail ALTER COLUMN training DROP NOT NULL;
+
 
 ALTER TABLE payment_draft_detail_activity_field ADD column deleted_at date;
 

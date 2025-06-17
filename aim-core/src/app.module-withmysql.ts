@@ -4,6 +4,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ActivityField } from './core/domains/ActivityField/ActivityField';
+import { ActivityFieldLocation } from './core/domains/ActivityFieldLocation/ActivityFieldLocation';
 import { ActivityFieldSection } from './core/domains/ActivityFieldSection/ActivityFieldSection';
 import { ActivityPlan } from './core/domains/ActivityPlan/ActivityPlan';
 import { ActivityYear } from './core/domains/ActivityYear/ActivityYear';
@@ -155,6 +156,7 @@ import { join } from 'path';
                 Hierarchy,
                 Section,
                 ActivityField,
+                ActivityFieldLocation,
                 MemberSacrement,
                 FeeType,
                 PaymentType,

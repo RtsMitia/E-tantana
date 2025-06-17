@@ -113,6 +113,10 @@ const MemberTransferValidation = React.lazy(() =>
 const StatisticByCategory = React.lazy(() =>
   import("./views/vato-fanorenana/StatisticByCategory")
 );
+
+const StatisticSig = React.lazy(() =>
+  import("./views/vato-fanorenana/StatisticSig")
+)
 const ProjectList = React.lazy(() => import("./views/vadibainga/ProjectList"));
 const UpdatePassword = React.lazy(() => import("./views/pages/UpdatePassword"));
 // const PublicPayment = React.lazy(() =>
@@ -222,6 +226,11 @@ const routes = [
     path: "/statistic",
     name: "Statistique globale sur les paiements",
     component: StatisticGlobal,
+  },
+  {
+    path: "/statisticSig",
+    name: "Statistique sig sur les paiements",
+    component: StatisticSig,
   },
   {
     path: "/memberCard/:id",

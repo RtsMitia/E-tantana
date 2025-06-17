@@ -61,13 +61,13 @@ export class PaymentDraftRepository extends GeneralDtoRepository {
         const response = paymentDraft.then((paymentDraft) => {
             PaymentDraftDetails.forEach((paymentDraftDetailData, index) => {
                 paymentDraftDetailData.payment_draft_id = paymentDraft.id;
-                console.log("PaymentDraft id: ", paymentDraftDetailData.payment_draft_id);
+                //console.log("PaymentDraft id: ", paymentDraftDetailData.payment_draft_id);
                 const name = {
                     last_name: paymentDraftDetailData.last_name,
                     first_name: paymentDraftDetailData.first_name,
                 };
-                console.log("Last name ", paymentDraftDetailData.last_name);
-                console.log("First name ", paymentDraftDetailData.first_name);
+                //console.log("Last name ", paymentDraftDetailData.last_name);
+                //console.log("First name ", paymentDraftDetailData.first_name);
                 const member = this.memberService.fetchMemberWithCriteria(name);
                 return member.then(async (member) => {
                     if (member) {
@@ -75,15 +75,22 @@ export class PaymentDraftRepository extends GeneralDtoRepository {
                         paymentDraftDetailData.member_id = member.id;
                         paymentDraftDetailData.activity_field_id =
                             activityFields[index][0]?.id || 1;
+
+                        if (!activityFields[index][0]) {
+                        console.warn(`⚠️ Missing activityField at index ${index}, defaulting to ID 1 for ${paymentDraftDetailData.last_name}`);
+                        } else {
+                        console.log(`✅ Found activityField ID: ${activityFields[index][0].id} for ${paymentDraftDetailData.last_name}`);
+                        }
+
                         const isValidDate = (d) => d instanceof Date && !isNaN(d.getTime());
 
                         if (!isValidDate(paymentDraftDetailData.birthdate)) {
-                            console.warn("Invalid birthdate:", paymentDraftDetailData.birthdate);
+                            //console.warn("Invalid birthdate:", paymentDraftDetailData.birthdate);
                             paymentDraftDetailData.birthdate = null; // or set to null
                         }
 
                         if (!isValidDate(paymentDraftDetailData.promise_date)) {
-                            console.warn("Invalid promise_date:", paymentDraftDetailData.promise_date);
+                            //console.warn("Invalid promise_date:", paymentDraftDetailData.promise_date);
                             paymentDraftDetailData.promise_date = null; // or set to null
                         }
                         await this.paymentDraftDetailService
@@ -119,20 +126,20 @@ export class PaymentDraftRepository extends GeneralDtoRepository {
                         return member1
                         .then((member) => {
                             if (member) {
-                            console.log("Found member by first name:", member.first_name);
+                            //console.log("Found member by first name:", member.first_name);
                             paymentDraftDetailData.member_id = member.id;
                             } else {
-                            console.warn("No member found at all.");
+                           // console.warn("No member found at all.");
                             }
                             const isValidDate = (d) => d instanceof Date && !isNaN(d.getTime());
 
                             if (!isValidDate(paymentDraftDetailData.birthdate)) {
-                                console.warn("Invalid birthdate:", paymentDraftDetailData.birthdate);
+                                //console.warn("Invalid birthdate:", paymentDraftDetailData.birthdate);
                                 paymentDraftDetailData.birthdate = null; // or set to null
                             }
 
                             if (!isValidDate(paymentDraftDetailData.promise_date)) {
-                                console.warn("Invalid promise_date:", paymentDraftDetailData.promise_date);
+                                //console.warn("Invalid promise_date:", paymentDraftDetailData.promise_date);
                                 paymentDraftDetailData.promise_date = null; // or set to null
                             }
                             console.log("Saving PaymentDraftDetail:", paymentDraftDetailData);

@@ -17,6 +17,7 @@ export interface IGeneralDtoService {
     ): Promise<Record<string, any>>;
     fetchById(id: number, properties?: JoinProperties[]): Promise<unknown>;
     update(id: number, data: unknown): Promise<unknown>;
+    updateWithCriteria(where: any, data: any): Promise<unknown>;
     fetchIdWithCriteria(criteria: any);
     delete(id: number);
 }

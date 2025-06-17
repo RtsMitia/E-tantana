@@ -93,30 +93,49 @@ export default class PaymentDetail extends Component {
   };
 
   getPaymentDetails = (page, pageNumber) => {
-    fetch(
-      api(
-        "paymentDetails/" +
-          this.state.id +
-          "?page=" +
-          Number(page) +
-          "&pageNumber=" +
-          Number(pageNumber)
-      )
-    ).then((res) => {
-      if (res.ok) {
-        return res.json().then((data) => {
-          const payment = data.paymentType.data.data[0].payment;
-          this.setState({
-            paymentDetails: data.paymentType.data.data,
-            totalPage: data.paymentType.data.pagination.totalPages,
-            page: page,
-            payment: payment,
+    const url = api(
+      "paymentDetails/" +
+        this.state.id +
+        "?page=" +
+        Number(page) +
+        "&pageNumber=" +
+        Number(pageNumber)
+    );
+
+    console.log("📤 Fetching payment details from URL:", url);
+
+    fetch(url)
+      .then((res) => {
+        console.log("✅ Response status:", res.status);
+        if (res.ok) {
+          return res.json().then((data) => {
+            console.log("📦 Full response data:", data);
+
+            const payment = data.paymentType.data.data[0].payment;
+
+            console.log("💰 Extracted payment:", payment);
+
+            this.setState({
+              paymentDetails: data.paymentType.data.data,
+              totalPage: data.paymentType.data.pagination.totalPages,
+              page: page,
+              payment: payment,
+            });
+
+            console.log("📃 Set state with paymentDetails:", data.paymentType.data.data);
+            console.log("📄 Total pages:", data.paymentType.data.pagination.totalPages);
+
+            this.pagination(data.paymentType.data.pagination.totalPages);
+
+            this.setState({ ready: true });
           });
-          this.pagination(data.paymentType.data.pagination.totalPages);
-          this.setState({ ready: true });
-        });
-      }
-    });
+        } else {
+          console.error("❌ Fetch failed with status:", res.status);
+        }
+      })
+      .catch((err) => {
+        console.error("🚨 Fetch error:", err);
+      });
   };
 
   componentDidMount() {

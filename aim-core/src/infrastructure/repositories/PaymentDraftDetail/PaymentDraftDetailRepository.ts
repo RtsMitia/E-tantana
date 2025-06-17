@@ -214,20 +214,29 @@ export class PaymentDraftDetailRepository
                         if (data['VOLA']) {
                             payment_draft_detail.amount = Number(data['VOLA']);
                         } else {
-                            const membershipFee =
-                                await this.membershipFeeService.fetchMembershipFeeByMemberInfo(
-                                    {
-                                        fee_type_id: (await fee_type).id,
-                                        member_role_id:
-                                            payment_draft_detail.member_role_id,
-                                        year: activityYear.end_year,
-                                        hierarchy_id:
-                                            payment_draft_detail.hierarchy_id,
-                                        section_id:
-                                            payment_draft_detail.section_id,
-                                    },
-                                );
-                            payment_draft_detail.amount = membershipFee.amount;
+                            //console.log("Fetching fee_type...");
+                            const feeType = await fee_type;
+                            //console.log("fee_type:", feeType);
+
+                            //console.log("Preparing membership fee criteria:");
+                            const criteria = {
+                                fee_type_id: feeType?.id,
+                                member_role_id: payment_draft_detail.member_role_id,
+                                year: activityYear?.end_year,
+                                hierarchy_id: payment_draft_detail.hierarchy_id,
+                                section_id: payment_draft_detail.section_id,
+                            };
+                            //console.log("Criteria used to fetch membership fee:", criteria);
+
+                            //console.log("Calling fetchMembershipFeeByMemberInfo...");
+                            const membershipFee = await this.membershipFeeService.fetchMembershipFeeByMemberInfo(criteria);
+
+                            if (!membershipFee) {
+                                //console.error("No membershipFee returned for criteria:", criteria);
+                            } else {
+                                //console.log("Membership fee found:", membershipFee);
+                                payment_draft_detail.amount = membershipFee.amount;
+                            }
                         }
                         payment_draft_detail.fee_type_id = (await fee_type).id;
                         total = total + payment_draft_detail.amount;
@@ -268,6 +277,8 @@ export class PaymentDraftDetailRepository
                             },
                         );
                         activity_fields_id.push(activityFields);
+                        //console.log('🧍 ANARANA:', data['ANARANA']);
+                        //console.log('🏷️ Activity Fields:', activityFields);
                         payment_draft_details.push(payment_draft_detail);
                         // return payment_draft_details;
                     }

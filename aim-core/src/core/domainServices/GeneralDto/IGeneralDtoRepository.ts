@@ -20,6 +20,7 @@ export interface IGeneralDtoRepository {
     ): Promise<Record<string, any>>;
     findById(id: number, properties?: JoinProperties[]): Promise<unknown>;
     update(id: number, data: unknown): Promise<unknown>;
+    updateWithCriteria(where: any, data: any): Promise<unknown>;
     findIdWithCriteria(criteria: any);
     delete(id: number);
     appendOrder(

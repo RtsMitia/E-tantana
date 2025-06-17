@@ -119,29 +119,26 @@ INSERT INTO "user" (
     email,
     contact,
     is_active,
-    "errorCount",
     "generatedLink",
     "generatedCode",
     "accountType",
     activity_field_id,
-    created_at,
-    updated_at,
-    deleted_at
+    deleted_at,
+    "errorCount"
 ) VALUES (
     'popo',
     'popo',
     'popo@example.com',
     '0341234567',
     true,
-    0,
-    'someGeneratedLink',
-    'someGeneratedCode',
+    '',
+    '',
     1,
-    5,
-    NOW(),
-    NOW(),
-    NULL
-); 
+    1,
+    NULL,
+    0
+);
+
 
 CREATE TABLE membership_fee ( 
 	id                   SERIAL PRIMARY KEY,

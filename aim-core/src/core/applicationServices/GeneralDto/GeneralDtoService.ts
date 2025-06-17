@@ -52,6 +52,10 @@ export class GeneralDtoService implements IGeneralDtoService {
         return this.repository.update(id, data);
     }
 
+    updateWithCriteria(where: any, data: any): Promise<unknown> {
+            return this.repository.updateWithCriteria(where, data);
+        }
+        
     fetchIdWithCriteria(criteria: any) {
         return this.repository.findIdWithCriteria(criteria);
     }

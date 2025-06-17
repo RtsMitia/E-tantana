@@ -108,6 +108,12 @@ const _menu = [
               name: "Statistiques par catégorie",
               to: "/paymentStatisticHierarchy",
             },
+            {
+              component: CNavItem,
+              access: 0,
+              name: "Statistiques Sig",
+              to: "/statisticSig",
+            },
           ],
         },
       ],

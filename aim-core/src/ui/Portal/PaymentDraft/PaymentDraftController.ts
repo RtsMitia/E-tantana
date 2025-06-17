@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Query,
+    Put,
 } from '@nestjs/common';
 import { IPaymentDraftService } from 'src/core/applicationServices/PaymentDraft/IPaymentDraftService';
 import { PaymentDraft } from 'src/core/domains/PaymentDraft/PaymentDraft';
@@ -76,5 +77,11 @@ export class PaymentDraftController {
             paymentDraft,
             activityField,
         );
+    }
+
+    @Put(':id')
+    async updatePaymentDraftDetail(@Param('id') id: number, @Body() data) {
+        console.log("Miditra update");
+        return await this.paymentDraftService.update(id, data);
     }
 }

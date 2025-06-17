@@ -47,4 +47,20 @@ export class PaymentDraftDetailController {
         console.log("Miditra update");
         return await this.paymentDraftDetailService.update(id, data);
     }
+
+    @Post('updatePaymentDraftDetailWhere')
+    async updatePaymentDraftDetailWhere(@Body() body) {
+        console.log("🔧 Received update body:", body);
+
+        const { where, data } = body;
+
+        console.log("📌 Where condition:", where);
+        console.log("📝 Data to update:", data);
+
+        const result = await this.paymentDraftDetailService.updateWithCriteria(where, data);
+
+        console.log("✅ Update result:", result);
+
+        return result;
+    }
 }

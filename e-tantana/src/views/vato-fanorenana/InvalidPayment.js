@@ -188,36 +188,72 @@ export default class InvalidPayment extends AdminLayout {
     // this.props.history.push(`/paymentDraftDetail/${id}/ref`);
   };
 
-  addReference() {
-    // mbola tsy mety miditra le ref????
-    console.log("Updating ref for paymentDraft id:", this.state.ref_payment_id);
-    this.setPending(true);
-    // console.log(this.state.ref_payment_id);
-    console.log("Reference note to add:", this.state.ref);
-    fetch(api(`paymentDraftDetails/${this.state.ref_payment_id}`), {
-      headers: { "Content-Type": "application/json" },
-      method: "PUT",
-      body: JSON.stringify({
-        note: this.state.ref,
-      }),
-    }).then((res) => {
-      this.setPending(false);
-      if (res.ok)
-        res.json().then((data) => {
-          this.cancelFormModal()
-          this.getInvalidPayments(this.state.page, this.state.pageNumber)
+    async updatePaymentDraftAndDetails(id, note, detailData) {
+      try {
+        // 1. Update payment_draft note by id
+        let res1 = await fetch(api(`paymentDrafts/${id}`), {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ note }),
         });
-      else {
-        res.json().then((res) => {
-          if (typeof res.message === typeof []) {
-            this.setError(res.message[0]);
-          } else {
-            this.setError(res.message);
-          }
+        if (!res1.ok) throw new Error("Failed to update payment_draft");
+
+        // 2. After payment_draft update success, update payment_draft_detail by payment_draft_id
+        let res2 = await fetch(api(`paymentDraftDetails/updatePaymentDraftDetailWhere/`), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            where: { payment_draft_id: id },
+            data: detailData,
+          }),
         });
+        if (!res2.ok) throw new Error("Failed to update payment_draft_detail");
+
+        let res3 = await fetch(api(`payments`), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            note: note,
+            date: null,
+            payment_draft_id: id,
+          }),
+        });
+        if (!res3.ok) throw new Error("Failed to insert new payment");
+
+        console.log("Draft, details updated and payment inserted successfully");
+      } catch (error) {
+        console.error(error);
       }
+    }
+
+  addReference() {
+    console.log("Updating ref for paymentDraft id:", this.state.ref_payment_id);
+    console.log("Reference note to add:", this.state.ref);
+
+    this.setPending(true);
+
+    this.updatePaymentDraftAndDetails(
+      this.state.ref_payment_id,
+      this.state.ref,
+      { note: this.state.ref }
+    ).then((data) => {
+      this.setPending(false);
+      this.cancelFormModal();
+      this.getInvalidPayments(this.state.page, this.state.pageNumber);
+      console.log("Both payment_draft and payment_draft_detail updated successfully");
+    }).catch((error) => {
+      this.setPending(false);
+      // error might be an object with a message field or an array of messages
+      if (error && typeof error.message === 'object' && Array.isArray(error.message)) {
+        this.setError(error.message[0]);
+      } else if (error && error.message) {
+        this.setError(error.message);
+      } else {
+        this.setError("Unknown error occurred");
+      }
+      console.error(error);
     });
-  }
+}
 
   render() {
     const { list, ready } = this.state;

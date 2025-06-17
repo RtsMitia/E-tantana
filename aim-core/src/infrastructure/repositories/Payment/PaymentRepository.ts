@@ -87,67 +87,80 @@ export class PaymentRepository extends GeneralDtoRepository {
         const limit = criteria.pageNumber || 20;
         const page = criteria.page || 1;
         const offset = (page - 1) * limit;
+
+        //console.log('📌 Criteria:', criteria);
+        //console.log(`📌 Pagination - page: ${page}, limit: ${limit}, offset: ${offset}`);
+
         let query = await this.paymentRepository
-            .createQueryBuilder()
+            .createQueryBuilder('Payment')
             .leftJoinAndSelect('Payment.paymentDraft', 'paymentDraft')
-            .leftJoinAndSelect(
-                'paymentDraft.paymentDraftDetails',
-                'paymentDraftDetails',
-            )
+            .leftJoinAndSelect('paymentDraft.paymentDraftDetails', 'paymentDraftDetails')
             .leftJoinAndSelect('paymentDraftDetails.member', 'member')
-            .leftJoinAndSelect(
-                'current_member_activity',
-                'cma',
-                'member.id = cma.member_id',
-            )
+            .leftJoinAndSelect('current_member_activity', 'cma', 'member.id = cma.member_id')
             .leftJoinAndSelect('paymentDraft.paymentType', 'paymentType')
             .where('Payment.id is not null');
+
         if (criteria.date_sup && !criteria.date_inf) {
-            query = query.andWhere('PaymentDraft.date <=:date', {
+            //console.log(`📌 Filtering where PaymentDraft.date <= ${criteria.date_sup}`);
+            query = query.andWhere('PaymentDraft.date <= :date', {
                 date: criteria.date_sup,
             });
         }
+
         if (criteria.date_inf && !criteria.date_sup) {
-            query = query.andWhere('PaymentDraft.date >=:date', {
+            //console.log(`📌 Filtering where PaymentDraft.date >= ${criteria.date_inf}`);
+            query = query.andWhere('PaymentDraft.date >= :date', {
                 date: criteria.date_inf,
             });
         }
+
         if (criteria.date_inf && criteria.date_sup) {
+            //console.log(`📌 Filtering between ${criteria.date_inf} and ${criteria.date_sup}`);
             query = query.andWhere(
-                'PaymentDraft.date >=:date1 and PaymentDraft.date <=:date2',
+                'PaymentDraft.date >= :date1 and PaymentDraft.date <= :date2',
                 {
                     date1: criteria.date_inf,
                     date2: criteria.date_sup,
                 },
             );
         }
+
         if (criteria.activityField) {
             const activityField = criteria.activityField;
-            // get members from inferior activity only
+            //console.log(`📌 Filtering by activityField and inferiors of: ${activityField}`);
+
             let afInferiors =
-                await this.activityFieldService.getAllInferiorActivityFields(
-                    +activityField,
-                );
+                await this.activityFieldService.getAllInferiorActivityFields(+activityField);
             afInferiors = afInferiors.map((af) => af.id);
             afInferiors = [activityField, ...afInferiors];
-            let afWhere = afInferiors.map((af) => {
-                return `cma.activity_field_id = ${af}`;
-            });
-            afWhere = afWhere.join(' OR ');
-            afWhere = `(${afWhere})`;
-            query.andWhere(afWhere);
+
+            //console.log('📌 Activity field IDs:', afInferiors);
+
+            const afWhere = afInferiors.map((af, i) => `cma.activity_field_id = :af${i}`).join(' OR ');
+            const afParams = {};
+            afInferiors.forEach((af, i) => (afParams[`af${i}`] = af));
+
+            query = query.andWhere(`(${afWhere})`, afParams);
         }
+
         const count = await query.getCount();
+        //console.log('📌 Total count of matching payments:', count);
+
         let totalPage = Math.floor(Number(count) / limit);
-        if (Number(count) % limit != 0) {
-            totalPage = totalPage + 1;
+        if (Number(count) % limit !== 0) {
+            totalPage += 1;
         }
+
+        const payments = await query
+            .orderBy('Payment.date', 'DESC')
+            .offset(offset)
+            .limit(limit)
+            .getMany();
+
+        //console.log('📌 Payments fetched:', payments.length);
+
         return {
-            payments: await query
-                .orderBy('Payment.date', 'DESC')
-                .offset(offset)
-                .limit(limit)
-                .getMany(),
+            payments,
             pagination: {
                 page: +page,
                 totalPages: totalPage,

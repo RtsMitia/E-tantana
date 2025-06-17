@@ -91,6 +91,10 @@ export class GeneralDtoRepository implements IGeneralDtoRepository {
         return this.repository.update(id, data);
     }
 
+    updateWithCriteria(where: any, data: any): Promise<unknown> {
+        return this.repository.update(where, data);
+    }
+    
     async findIdWithCriteria(criteria: any) {
         const generalDto = this.repository
             .createQueryBuilder()

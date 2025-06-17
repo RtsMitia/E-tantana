@@ -89,7 +89,7 @@ export default class GroupPayment extends React.Component {
   };
 
   groupPayment = () => {
-    // console.log(this.state.paymentDraftDetails);
+    //console.log(this.state.activityFields);
     const option = {
       headers: { "Content-Type": "application/json" },
       method: "POST",

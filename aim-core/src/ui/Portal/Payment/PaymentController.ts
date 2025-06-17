@@ -70,4 +70,9 @@ export class PaymentController {
     getAllPaymentDetails(@Param('id') id: number) {
         return this.paymentService.fetchAllPaymentDetails(id);
     }
+
+    @Post()
+    createPayment(@Body() body: any) {
+        return this.paymentService.save(body);
+    }
 }
